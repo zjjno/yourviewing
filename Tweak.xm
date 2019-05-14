@@ -1,10 +1,8 @@
 #import <UIKit/UIKit.h>
+#include <dlfcn.h>
+
 static NSString *k_YourViewing_Plist_Path = @"/var/mobile/Library/Preferences/com.in8.yourviewing.plist";
 static NSString *kALSettingsKey = @"YourViewing";
-
-@interface Main : NSObject
-+(void)_main;
-@end
 
 %ctor {
     @autoreleasepool {
@@ -15,7 +13,7 @@ static NSString *kALSettingsKey = @"YourViewing";
         
         if ([appPath hasPrefix:@"/var/containers/Bundle/Application/"] || [appPath hasPrefix:@"/Applications/"]) {
             if (switchOnApp.length && bundleIdentifier.length && [switchOnApp isEqualToString:bundleIdentifier]) {
-                [Main _main];
+                dlopen("/Library/Application Support/YourView/libyourview.framework/libyourview", RTLD_NOW);
             }
         }
     }
